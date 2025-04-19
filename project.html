@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Travel packing AI assistant</title>
+<style>
+   
+   body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url(https://images.squarespace-cdn.com/content/v1/56e8fcc03c44d89db7df9b3e/1490045811710-YXHD34YYZYANXEKLFJCA/10+Tips+to+Help+You+Pack+Like+A+Pro);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100% auto; 
+        display: flex;
+        opacity: 0.79;                   
+        z-index: -1;                   
+    }
+
+    .one{
+        display:block;
+        text-align: center;
+        margin-top:90px;
+        margin-left:200px;
+        font-size:20px;
+        margin-right:200px;
+
+    }
+    .field{
+        margin-top:100px;
+        width:500px;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(5px); 
+        border:none;
+        border-radius:50px;
+        margin-left:50px;
+   
+    }
+    .submit{
+        margin-top:0px;
+        margin-left:260px;
+        border-radius:30px;
+        width:100px;
+        height:40px;
+        margin-bottom:90px;
+        background-color: rgb(56, 84, 133);
+        border: none;
+        font-size: 18px;
+        color:aliceblue;
+        font-weight: bold;
+       
+        
+    }
+    .submit:hover{
+        background-color: rgb(152, 152, 230);
+        color:rgb(56, 84, 133);
+        cursor: pointer;
+    }
+    input{
+        width:200px;
+        height:30px;
+        border-radius:20px;
+        border:none;
+        font-weight: bold;
+    }
+    .error {
+            color: red;
+            font-size: 14px;
+    }
+    .logo{
+        font-size:80px;
+        font-style: italic;
+        margin-left: 90px;
+        margin-top: 50px;
+    }
+    .nav{
+        margin-left: 900px;
+        margin-top:30px;
+        display:flex;
+        gap:20px;
+        font-weight:bold;
+        font-size: 20px;
+        cursor: pointer;
+
+    }
+</style>
+</head>
+<body>
+    <div class="logo">BONVOYAGE</div>
+        <div class="nav">
+            <a href="#" style="color:black">Home</a>
+            <a href="#" style="color:black">About</a>
+            <a href="#" style="color:black">Blogs</a>
+            
+            <a href="#" style="color:black">Contact</a>
+        </div>
+
+    </div>
+    <form action="#" method="post" id="loginpage" onsubmit="return validate()">
+    <fieldset class="field">
+    
+    <div class="one">
+        <label for="username">User Name</label><br>
+        <input type="text" id="username" name="username"><br>
+        <span class="error" id="usernameerror"></span><br>
+
+        <label for="password">Password</label><br>
+        <input type="password" id="password"><br>
+        <span class="error" id="passworderror"></span><br>
+    </div><br>
+        <button type="submit" class="submit">Login</button>
+        
+        
+    </fieldset>
+
+    
+    </form>
+
+<script>
+    function validate(){
+        let isValid=true;
+        let user_name=document.getElementById("username").value;
+        let username_error=document.getElementById("usernameerror");
+        if(!/^[A-Za-z0-9]{3,}$/.test(user_name)){
+            username_error.innerText="Username must be at least 3 characters";
+            isValid=false;
+        }else{
+            usernameerror.innerText="";
+        }
+
+        let password=document.getElementById("password").value;
+        let passworderror=document.getElementById("passworderror");
+        let passwordpattern=/^(?=.*[A-Z])(?=.*[a-z])(?=.*[\d])(?=.*[@#$%&*?!])[A-Za-z0-9@#$%&*?!]{8,}$/;
+        if (!passwordpattern.test(password)){
+            passworderror.innerText="Password must be at least 8 characters with uppercase, lowercase, number & special character";
+            isValid=false;
+            }else{
+                passworderror.innerText="";
+            }
+        
+        if(!isValid){
+            return false;
+        }else{
+            alert("completed");
+        }
+
+    }
+</script>
+</body>
+</html>
