@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Your Packing List</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-image: url('https://png.pngtree.com/png-vector/20220610/ourmid/pngtree-world-map-silhouette-vector-australia-png-image_4955918.png');
+      margin: 0;
+      padding: 0;
+    }
+
+
+    .top-banner {
+        height: 200px;
+        background-image: url('https://poonawallafincorp.com/documents/213163/213167/blog_banner-banner-image-checklist-of-things-to-carry-while-travelling-for-a-seamless-experience.jpg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100% auto;
+        display: flex;
+        margin-top: 0px;
+        flex-direction: column;
+        justify-content: center;
+        color: rgb(250, 246, 246);
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .logo {
+        font-size: 90px;
+        font-style: italic;
+        margin-left: 40px;
+        margin-top:7px;
+    }
+
+    .nav {
+        display:flex;
+        gap: 20px;
+        font-weight: bold;
+        font-size: 20px;
+        margin-top: 30px;
+        margin-left: auto;
+        margin-right: 100px;
+    }
+
+    .nav a {
+        color: rgb(251, 250, 250);
+        text-decoration: none;
+    }
+
+    .nav a:hover {
+        text-decoration: underline;
+    }
+
+    .container {
+      max-width: 700px;
+      background-color: white;
+      margin: 60px auto;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .section label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #555;
+    }
+
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .option {
+      border: 2px solid #ccc;
+      padding: 15px;
+      text-align: center;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      color: #8b8005;
+      font-weight: 600;
+    }
+
+    .option i {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .option:hover,
+    .option.selected {
+      border-color: #9cc23f;
+      background-color: #f7fbf3;
+ 
+    }
+
+    .checkbox {
+      margin-top: 15px;
+    }
+
+    .create-button {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .create-button button {
+      background-color: #e6c804;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1rem;
+      font-weight: bold;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.3s ease;
+    }
+
+    .create-button button:hover {
+      background-color: #f9cb15;
+    }
+
+    .back {
+      margin-top: 20px;
+    }
+
+    .back button {
+      background: #eee;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .back button:hover {
+      background: #ddd;
+    }
+
+
+    /*profile icon*/
+
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-icon {
+    font-size: 30px;
+    cursor: pointer;
+    color: white;
+    margin-left:1430px;
+    height:60px;
+    width:60px;
+    margin-top:-30px;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 40px;
+    background-color: white;
+    min-width: 150px;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.dropdown-menu a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f0f0f0;
+}
+
+
+  </style>
+ 
+</head>
+<body>
+
+    <div class="top-banner">
+        <div class="logo">BONVOYAGE</div>
+        <div class="nav">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Blogs</a>
+            <a href="#">Contact</a>
+        </div>
+    </div>
+
+    <div class="profile-dropdown">
+        <img src="https://icon-library.com/images/contact-icon-png/contact-icon-png-5.jpg" class="profile-icon" onclick="toggleDropdown()" alt="Profile">
+
+        <div class="dropdown-menu" id="dropdownMenu">
+            <a href="#">Edit Profile</a>
+            <a href="#">Logout</a>
+        </div>
+    </div>
+
+  <div class="container">
+    <h1>Create your packing list</h1>
+
+    <div class="section">
+      <label>Climate</label>
+      <div class="options">
+        <div class="option">🌴 Tropical</div>
+        <div class="option">☀️ Warm</div>
+        <div class="option">🌤️ Changeable</div>
+        <div class="option">❄️ Cold</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <label>Accommodation</label>
+      <div class="options">
+        <div class="option">🏨 Hotel</div>
+        <div class="option">🏡 Hostel/ Home</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <label>Travel type</label>
+      <div class="options">
+        <div class="option">⛱️ Holiday</div>
+        <div class="option">🎒 Backpacking</div>
+        <div class="option">💼 Business Trip</div>
+        <div class="option">🏕️ Adventure</div>
+      </div>
+    </div>
+
+    <div class="checkbox">
+      <input type="checkbox" id="light-pack">
+      <label for="light-pack">Pack extra light?</label>
+    </div>
+
+    <div class="create-button">
+      <button> Create packing list</button>
+    </div>
+
+    <div class="back">
+      <button>⬅ Back</button>
+    </div>
+  </div>
+  
+
+<script>
+    const options = document.querySelectorAll('.option');
+    options.forEach(option => {
+      option.addEventListener('click', () => {
+        option.classList.toggle('selected');
+      });
+    });
+
+
+    function toggleDropdown() {
+           const dropdown = document.getElementById("dropdownMenu");
+           dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+            }
+
+  
+            window.onclick = function(event) {
+            if (!event.target.matches('.profile-icon')) {
+                const dropdown = document.getElementById("dropdownMenu");
+                if (dropdown && dropdown.style.display === "block") {
+                    dropdown.style.display = "none";
+            }
+            }
+            }
+
+
+  </script>
+  </body>
+  </html>
+  
+
+
+</body>
+</html>
