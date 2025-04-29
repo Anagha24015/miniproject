@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Recommendation</title>
+  <style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        /*background-image: url('https://png.pngtree.com/png-vector/20220610/ourmid/pngtree-world-map-silhouette-vector-australia-png-image_4955918.png');*/
+        background-repeat: no-repeat;
+        background-color: #f7f7f7;
+        background-size: 100% auto;
+    
+    }
+
+    /* Banner section only */
+    .top-banner {
+        height: 200px;
+        background-image: url('https://poonawallafincorp.com/documents/213163/213167/blog_banner-banner-image-checklist-of-things-to-carry-while-travelling-for-a-seamless-experience.jpg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100% auto;
+        display: flex;
+        margin-top: 0px;
+        flex-direction: column;
+        justify-content: center;
+        color: rgb(250, 246, 246);
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .logo {
+        font-size: 90px;
+        font-style: italic;
+        margin-left: 40px;
+        margin-top:7px;
+    }
+
+    .nav {
+        display:flex;
+        gap: 20px;
+        font-weight: bold;
+        font-size: 20px;
+        margin-top: 30px;
+        margin-left: auto;
+        margin-right: 100px;
+        color:white;
+    }
+
+    .nav :hover {
+        cursor: pointer;
+    }
+
+    h1 {
+      color: #4a4a4a;
+      margin-left:544px;
+    }
+    .packing-list {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 600px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      margin-left:450px;
+      margin-bottom: 40px;
+    }
+    ul {
+      line-height: 1.8;
+    }
+    .buttons {
+      margin-top: 20px;
+      margin-left:572px;
+      margin-bottom:40px;
+    }
+    .buttons button {
+      margin-right: 10px;
+      padding: 10px 20px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .download-btn {
+      background-color: #28a745;
+      color: white;
+    }
+    .save-btn {
+      background-color: #007bff;
+      color: white;
+    }
+    .load-btn {
+      background-color: #ffc107;
+      color: black;
+    }
+
+    .share-btn {
+      background-color: #17a2b8;
+      color: white;
+    }
+
+
+  /*profile icon*/
+
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-icon {
+    font-size: 30px;
+    cursor: pointer;
+    color: white;
+    margin-left:1430px;
+    height:60px;
+    width:60px;
+    margin-top:-30px;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 40px;
+    background-color: white;
+    min-width: 150px;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    color: #333;
+    padding: 13px 17px;
+    text-decoration: none;
+}
+
+
+
+.dropdown-menu :hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f1f1f1;
+            margin-top: 40px;
+            font-size: 14px;
+            color: #777;
+}
+
+  </style>
+</head>
+<body>
+    <div class="top-banner">
+        <div class="logo">BONVOYAGE</div>
+        <div class="nav">
+          <span onclick="goHome()">Home</span>
+          <span onclick="faq()">FAQ</span>
+          <span onclick="blogs()">Blogs</span>
+          <span onclick="contact()">Contact</span>
+        </div>
+    </div>
+
+    <div class="profile-dropdown">
+        <img src="https://icon-library.com/images/contact-icon-png/contact-icon-png-5.jpg" class="profile-icon" onclick="toggleDropdown()" alt="Profile">
+
+        <div class="dropdown-menu" id="dropdownMenu">
+          <span onclick="editprofile()"> Edit Profile </span><br>
+          <span onclick="logout()"> Logout </span>
+        </div>
+    </div>
+
+  <h1>Your AI-Powered Packing List</h1>
+  <div class="packing-list" id="result">
+    <!-- Packing list will be shown here -->
+  </div>
+
+  <div class="buttons">
+    <button class="download-btn" onclick="downloadList()">⬇ Download</button>
+    <button class="save-btn" onclick="saveList()">💾 Save</button>
+    <button class="load-btn" onclick="loadList()">🔄 Load Saved</button>
+    <button class="share-btn" onclick="shareList()">📤 Share</button>
+  </div>
+
+  <script>
+    // Example data (replace with real input later)
+    const userInput = {
+      gender: "female",
+      weather: "cold",
+      duration: 5,
+      withKids: true,
+      withSeniors: false
+    };
+
+    function generatePackingList(input) {
+      let list = [];
+
+      list.push("Passport / ID", "Phone & Charger", "Toiletries", "Medications");
+
+      if (input.weather === "cold") {
+        list.push("Warm jacket", "Thermal wear", "Gloves", "Woolen socks", "Beanie or hat");
+      } else if (input.weather === "warm") {
+        list.push("T-shirts", "Shorts", "Sunglasses", "Sunscreen", "Cap or Hat");
+      } else if (input.weather === "tropical") {
+        list.push("Bug repellent", "Flip-flops", "Swimwear", "Light cotton clothes", "Raincoat");
+      } else if (input.weather === "changeable") {
+        list.push("Layered clothing", "Umbrella", "Waterproof shoes");
+      }
+
+      if (input.gender === "female") {
+        list.push("Makeup kit", "Hair ties", "Sanitary products");
+      } else if (input.gender === "male") {
+        list.push("Shaving kit", "Deodorant");
+      }
+
+      if (input.duration > 7) {
+        list.push("Laundry bag", "Extra underwear", "Comfortable shoes");
+      }
+
+      if (input.withKids) {
+        list.push("Toys or books", "Snacks", "Baby wipes", "Extra clothes for kids");
+      }
+
+      if (input.withSeniors) {
+        list.push("Walking aid", "Daily meds", "Neck pillow", "Medical documents");
+      }
+
+      return list;
+    }
+
+    const packingItems = generatePackingList(userInput);
+    const resultDiv = document.getElementById("result");
+    const listHTML = `
+      <h2>Recommended Items:</h2>
+      <ul>${packingItems.map(item => `<li>${item}</li>`).join("")}</ul>
+    `;
+    resultDiv.innerHTML = listHTML;
+
+    function downloadList() {
+      const blob = new Blob([packingItems.join("\n")], { type: "text/plain" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "packing_list.txt";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function saveList() {
+      localStorage.setItem("packingList", JSON.stringify(packingItems));
+      alert("Packing list saved!");
+    }
+
+    function loadList() {
+      const saved = localStorage.getItem("packingList");
+      if (saved) {
+        const items = JSON.parse(saved);
+        resultDiv.innerHTML = `
+          <h2>Saved Packing List:</h2>
+          <ul>${items.map(item => `<li>${item}</li>`).join("")}</ul>
+        `;
+      } else {
+        alert("No saved list found.");
+      }
+    }
+
+    /*profile icon*/
+            
+    function toggleDropdown() {
+    const dropdown = document.getElementById("dropdownMenu");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    }
+
+  
+    window.onclick = function(event) {
+    if (!event.target.matches('.profile-icon')) {
+        const dropdown = document.getElementById("dropdownMenu");
+        if (dropdown && dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+        }
+        }
+    }
+    
+    function goHome() {
+        window.location.href = 'Home page.html';  
+    }
+
+    function faq(){
+        window.location.href = 'FAQ.html';
+    }
+
+    function blogs(){
+        window.location.href = 'blogs.html';
+    }
+
+    function contact(){
+        window.location.href = 'Contact.html';
+    }
+
+    function editprofile(){
+        window.location.href = 'edit profile2.html';
+    }
+            
+    function logout(){
+        window.location.href = 'myproject design 2.html'
+    }
+
+
+  </script>
+
+<footer>
+  © 2025 Bonvoyage- Travel Packing Assistant. All rights reserved.
+</footer>
+
+</body>
+</html>
