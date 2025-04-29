@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Us</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            color: #333;
+            font-family: 'Segoe UI', sans-serif;
+            background-image: url('https://png.pngtree.com/png-vector/20220610/ourmid/pngtree-world-map-silhouette-vector-australia-png-image_4955918.png');
+            /*background-repeat: no-repeat;*/
+            background-size: 100% auto;
+        
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .email {
+            font-size: 18px;
+        }
+
+        .email a {
+            color: #9d7602; /* yellow */
+            text-decoration: none;
+        }
+
+        .email a:hover {
+            text-decoration: underline;
+        }
+
+         /* Banner section only */
+    .top-banner {
+        height: 200px;
+        background-image: url('https://poonawallafincorp.com/documents/213163/213167/blog_banner-banner-image-checklist-of-things-to-carry-while-travelling-for-a-seamless-experience.jpg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100% auto;
+        display: flex;
+        margin-top: 0px;
+        flex-direction: column;
+        justify-content: center;
+        color: rgb(250, 246, 246);
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .logo {
+        font-size: 90px;
+        font-style: italic;
+        margin-left: 40px;
+        margin-top:7px;
+    }
+
+    .nav {
+        display:flex;
+        gap: 20px;
+        font-weight: bold;
+        font-size: 20px;
+        margin-top: 30px;
+        margin-left: auto;
+        margin-right: 100px;
+        color:white;
+    }
+
+    .nav:hover {
+        cursor: pointer;
+    }
+
+
+    footer {
+        text-align: center;
+        padding: 20px;
+        background-color: #f1f1f1;
+        margin-top: 300px;
+        font-size: 14px;
+        color: #777;
+    }
+    </style>
+</head>
+<body>
+    <div class="top-banner">
+        <div class="logo">BONVOYAGE</div>
+        <div class="nav">
+            <span onclick="goHome()">Home</span>
+            <span onclick="faq()">FAQ</span>
+            <span onclick="blogs()">Blogs</span>
+            <span onclick="contact()">Contact</span>
+        </div>
+    </div>
+
+    <h1>Contact Us</h1>
+
+    <p>We'd love to hear from you! Whether you have a question, feedback, or need support, feel free to reach out.</p>
+
+    <p class="email">
+        Email us at: 
+        <a href="mailto:bonvoyage@gmail.com">bonvoyage@gmail.com</a>
+    </p>
+
+
+    <script>
+        
+            function goHome() {
+                window.location.href = 'Home page.html';  
+            }
+
+            function faq(){
+                window.location.href = 'FAQ.html';
+            }
+
+            function blogs(){
+                window.location.href = 'blogs.html';
+            }
+
+            function contact(){
+                window.location.href = 'Contact.html';
+            }
+
+    </script>
+
+<footer>
+    © 2025 Bonvoyage- Travel Packing Assistant. All rights reserved.
+</footer>
+   
+
+</body>
+</html>

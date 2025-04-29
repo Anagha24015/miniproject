@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FAQs - Bonvoyage</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    /* Banner section only */
+    .top-banner {
+        height: 200px;
+        background-image: url('https://poonawallafincorp.com/documents/213163/213167/blog_banner-banner-image-checklist-of-things-to-carry-while-travelling-for-a-seamless-experience.jpg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100% auto;
+        display: flex;
+        margin-top: 0px;
+        flex-direction: column;
+        justify-content: center;
+        color: rgb(250, 246, 246);
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .logo {
+        font-size: 90px;
+        font-style: italic;
+        margin-left: 40px;
+        margin-top:7px;
+    }
+
+    .nav {
+        display:flex;
+        gap: 20px;
+        font-weight: bold;
+        font-size: 20px;
+        margin-top: 30px;
+        margin-left: auto;
+        margin-right: 100px;
+        color:white;
+    }
+
+    /*.nav a {
+        color: rgb(251, 250, 250);
+        text-decoration: none;
+    }*/
+
+    .nav:hover {
+        cursor: pointer;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      text-align: center;
+      font-size: 18px;
+      color: #555;
+      margin-bottom: 40px;
+    }
+    .faq-item {
+      margin-bottom: 30px;
+    }
+    .faq-question {
+      font-weight: bold;
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+    .faq-answer {
+      font-size: 16px;
+      color: #555;
+      line-height: 1.6;
+    }
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      font-size: 14px;
+      color: #777;
+    }
+
+
+
+  </style>
+</head>
+<body>
+  <div class="top-banner">
+    <div class="logo">BONVOYAGE</div>
+    <div class="nav">
+      <span onclick="goHome()">Home</span>
+      <span onclick="faq()">FAQ</span>
+      <span onclick="blogs()">Blogs</span>
+      <span onclick="contact()">Contact</span>
+    </div>
+</div>
+
+<div class="container">
+  <h1>Frequently Asked Questions</h1>
+  <p class="subtitle">Find answers to common questions about Bonvoyage.</p>
+
+  <div class="faq-item">
+    <div class="faq-question">Do users can download the packing list?</div>
+    <div class="faq-answer">Yes, every users can download the packing list.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">How does Bonvoyage recommend what to pack?</div>
+    <div class="faq-answer">Bonvoyage uses AI to suggest items based on your destination, trip duration and weather forecast you select.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">Is there a limit to how many lists I can create?</div>
+    <div class="faq-answer">No, you can create as many packing lists as you want!</div>
+  </div>
+
+
+  <div class="faq-item">
+    <div class="faq-question">I have an issue or feedback</div>
+    <div class="faq-answer">Please contact us at <a href="mailto:bonvoyage@gmail.com">bonvoyage@gmail.com</a>.</div>
+  </div>
+</div>
+
+
+<script>
+    function goHome() {
+        window.location.href = 'myproject design 2.html';  
+    }
+
+    function faq(){
+        window.location.href = 'FAQ2.html';
+    }
+
+    function blogs(){
+        window.location.href = 'blogs2.html';
+    }
+
+    function contact(){
+        window.location.href = 'Contact2.html';
+    }
+
+</script>
+<footer>
+  © 2025 Bonvoyage- Travel Packing Assistant. All rights reserved.
+</footer>
+
+</body>
+</html>

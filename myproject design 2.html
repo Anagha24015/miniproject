@@ -10,7 +10,6 @@
         font-family: 'Segoe UI', sans-serif;
         background-image: url('https://png.pngtree.com/png-vector/20220610/ourmid/pngtree-world-map-silhouette-vector-australia-png-image_4955918.png');
         background-repeat: no-repeat;
-        
         background-size: 100% auto;
     
     }
@@ -45,15 +44,16 @@
         margin-top: 30px;
         margin-left: auto;
         margin-right: 100px;
+        color:white;
     }
 
-    .nav a {
+    /*.nav a {
         color: rgb(251, 250, 250);
         text-decoration: none;
-    }
+    }*/
 
-    .nav a:hover {
-        text-decoration: underline;
+    .nav:hover {
+        cursor: pointer;
     }
 
     .one {
@@ -67,7 +67,7 @@
     }
 
     .field {
-        margin-top: 50px;
+        margin-top: 10px;
         width: 500px;
     
         background-size: cover;
@@ -186,22 +186,51 @@
   transform: scale(1.05);
 }
 
+.quote{
+    margin-top:20px;
+    margin-left:900px;
+}
 
 
+.main-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-top: 50px;
+}
+
+.quote {
+    margin: 0;
+}
+
+.field {
+    margin: 0;
+}
+
+footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f1f1f1;
+            margin-top: 40px;
+            font-size: 14px;
+            color: #777;
+        }
 </style>
 </head>
 <body>
     <div class="top-banner">
         <div class="logo">BONVOYAGE</div>
         <div class="nav">
-            <a href="#">Home</a>
-            <a href="#">About</a>
-            <a href="#">Blogs</a>
-            <a href="#">Contact</a>
+            <span onclick="goHome()">Home</span>
+            <span onclick="faq()">FAQ</span>
+            <span onclick="blogs()">Blogs</span>
+            <span onclick="contact()">Contact</span>
         </div>
     </div>
-
-    <form action="#" method="post" id="loginpage" onsubmit="return validate()">
+    <div class="main-section">
+    <span class="quote"><img src="https://thumbs.dreamstime.com/b/travel-photo-collage-isolated-white-background-51114940.jpg" width="600px" height="600px"></span>
+    <form action="#" method="post" id="loginpage" onsubmit="return validate();">
         <fieldset class="field">
             <div class="one">
                 <label for="username">User Name</label><br>
@@ -212,11 +241,12 @@
                 <input type="password" id="password"><br>
                 <span class="error" id="passworderror"></span><br>
             </div><br>
+            
             <button type="submit" class="submit">Login</button><br>
-            <div class="new">New User?<a href="C:\Users\Harindranath\Documents\Materials S2\Full stack\PROJECT\project (a)1.html">Sign Up</a></div>
+            <div class="new">New User?<a href="design2_signin.html">Sign Up</a></div>
         </fieldset>
     </form>
-    
+    </div>
     <section class="features">
         <h2>Pack with Us</h2>
         <div class="feature-container">
@@ -251,37 +281,62 @@
         </div>
       </section>
       
+      <script>
+        function validate() {
+            let user_name = document.getElementById("username").value.trim();
+            let password = document.getElementById("password").value.trim();
+            let username_error = document.getElementById("usernameerror");
+            let passworderror = document.getElementById("passworderror");
 
+            if (user_name === "" || password === "") {
+                alert("All the fields should be filled");
+                return false;
+            }
 
-      
-<script>
-    function validate() {
-        let isValid = true;
-        let user_name = document.getElementById("username").value;
-        let username_error = document.getElementById("usernameerror");
-        if (!/^[A-Za-z0-9]{3,}$/.test(user_name)) {
-            username_error.innerText = "Username must be at least 3 characters";
-            isValid = false;
-        } else {
-            username_error.innerText = "";
+            let isValid = true;
+
+            if (!/^[A-Za-z0-9]{3,}$/.test(user_name)) {
+                username_error.innerText = "Username must be at least 3 characters";
+                isValid = false;
+            } else {
+                username_error.innerText = "";
+            }
+
+            let passwordpattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[\d])(?=.*[@#$%&*?!])[A-Za-z0-9@#$%&*?!]{8,}$/;
+            if (!passwordpattern.test(password)) {
+                passworderror.innerText = "Password must be at least 8 characters with uppercase, lowercase, number & special character";
+                isValid = false;
+            } else {
+                passworderror.innerText = "";
+            }
+
+            if (isValid) {
+                // if validation is successful
+                window.location.href = 'profile.html'; 
+            }
+
+            return false; // Prevent default form submit behavior
         }
 
-        let password = document.getElementById("password").value;
-        let passworderror = document.getElementById("passworderror");
-        let passwordpattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[\d])(?=.*[@#$%&*?!])[A-Za-z0-9@#$%&*?!]{8,}$/;
-        if (!passwordpattern.test(password)) {
-            passworderror.innerText = "Password must be at least 8 characters with uppercase, lowercase, number & special character";
-            isValid = false;
-        } else {
-            passworderror.innerText = "";
+        function goHome() {
+            window.location.href = 'myproject design 2.html';  
         }
 
-        if (!isValid) {
-            return false;
-        } else {
-            alert("completed");
+        function faq(){
+            window.location.href = 'FAQ.html';
         }
-    }
-</script>
+
+        function blogs(){
+            window.location.href = 'blogs.html';
+        }
+
+        function contact(){
+            window.location.href = 'Contact.html';
+        }
+  </script>   
+<footer>
+  © 2025 Bonvoyage- Travel Packing Assistant. All rights reserved.
+</footer>
+
 </body>
 </html>

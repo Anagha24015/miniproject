@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Profile</title>
+  <style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background-image: url('https://png.pngtree.com/png-vector/20220610/ourmid/pngtree-world-map-silhouette-vector-australia-png-image_4955918.png');
+        /*background-repeat: no-repeat;
+        background-size: 100% auto;*/
+    
+    }
+
+    .top-banner {
+        height: 200px;
+        background-image: url('https://poonawallafincorp.com/documents/213163/213167/blog_banner-banner-image-checklist-of-things-to-carry-while-travelling-for-a-seamless-experience.jpg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100% auto;
+        display: flex;
+        margin-top: 0px;
+        flex-direction: column;
+        justify-content: center;
+        color: rgb(250, 246, 246);
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .logo {
+        font-size: 90px;
+        font-style: italic;
+        margin-left: 40px;
+        margin-top:7px;
+    }
+
+    .nav {
+        display:flex;
+        gap: 20px;
+        font-weight: bold;
+        font-size: 20px;
+        margin-top: 30px;
+        margin-left: auto;
+        margin-right: 100px;
+        color:white;
+    }
+
+    .nav :hover {
+        cursor: pointer;
+    }
+
+
+
+
+    .profile-container {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+      width: 450px;
+      margin-left:500px;
+      margin-top:100px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    input, select {
+      width: calc(100% - 60px);
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+
+    .edit-btn {
+      position: absolute;
+      right: 50px;
+      top: 30px;
+      padding: 5px 10px;
+      font-size: 12px;
+      background-color: #4e73df;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .cancel-btn {
+      position: absolute;
+      right: -9px;
+      top: 30px;
+      padding: 5px 10px;
+      font-size: 12px;
+      background-color: #f96363;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      display: none;
+      
+    }
+
+    .edit-btn:hover {
+      background-color: #2e59d9;
+    }
+
+    .cancel-btn:hover {
+      background-color: #dc3545;
+    }
+
+    .save-btn {
+      width: 100%;
+      padding: 12px;
+      background-color: #e6c804;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .save-btn:hover {
+      background-color: #f9cb15;
+    }
+
+    .error {
+      color: red;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+
+/*profile icon*/
+
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-icon {
+    font-size: 30px;
+    cursor: pointer;
+    color: white;
+    margin-left:1430px;
+    height:60px;
+    width:60px;
+    margin-top:-30px;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 40px;
+    background-color: white;
+    min-width: 150px;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    color: #333;
+    padding: 13px 17px;
+    text-decoration: none;
+}
+
+
+
+.dropdown-menu :hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+
+footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f1f1f1;
+            margin-top: 40px;
+            font-size: 14px;
+            color: #777;
+}
+  </style>
+</head>
+<body>
+    <div class="top-banner">
+        <div class="logo">BONVOYAGE</div>
+        <div class="nav">
+            <span onclick="goHome()">Home</span>
+            <span onclick="faq()">FAQ</span>
+            <span onclick="blogs()">Blogs</span>
+            <span onclick="contact()">Contact</span>
+        </div>
+    </div>
+
+    <div class="profile-dropdown">
+        <img src="https://icon-library.com/images/contact-icon-png/contact-icon-png-5.jpg" class="profile-icon" onclick="toggleDropdown()" alt="Profile">
+
+        <div class="dropdown-menu" id="dropdownMenu">
+            <span onclick="editprofile()"> Edit Profile </span><br>
+            <span onclick="logout()"> Logout </span>
+        </div>
+    </div>
+
+
+<div class="profile-container">
+  <h2>Edit Profile</h2>
+  <form id="editProfileForm">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" disabled>
+      <button type="button" class="edit-btn" onclick="enableField('username')">Edit</button>
+      <button type="button" class="cancel-btn" onclick="cancelEdit('username')">Cancel</button>
+      <div class="error" id="usernameError"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" disabled>
+      <button type="button" class="edit-btn" onclick="enableField('email')">Edit</button>
+      <button type="button" class="cancel-btn" onclick="cancelEdit('email')">Cancel</button>
+      <div class="error" id="emailError"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" disabled>
+      <button type="button" class="edit-btn" onclick="enableField('phone')">Edit</button>
+      <button type="button" class="cancel-btn" onclick="cancelEdit('phone')">Cancel</button>
+      <div class="error" id="phoneError"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="gender">Gender</label>
+      <select id="gender" disabled>
+        <option value="" disabled selected>Select Gender</option>
+        <option>Female</option>
+        <option>Male</option>
+        <option>Other</option>
+      </select>
+      <button type="button" class="edit-btn" onclick="enableField('gender')">Edit</button>
+      <button type="button" class="cancel-btn" onclick="cancelEdit('gender')">Cancel</button>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" disabled>
+      <button type="button" class="edit-btn" onclick="enableField('password')">Edit</button>
+      <button type="button" class="cancel-btn" onclick="cancelEdit('password')">Cancel</button>
+      <div class="error" id="passwordError"></div>
+    </div>
+
+    <button type="submit" class="save-btn">Save Changes</button>
+  </form>
+</div>
+
+<script>
+  const originalValues = {
+    username: '',
+    email: '',
+    phone: '',
+    gender: '',
+    password: ''
+  };
+
+  function enableField(fieldId) {
+    const input = document.getElementById(fieldId);
+    input.disabled = false;
+    input.focus();
+
+    const cancelBtn = input.parentElement.querySelector('.cancel-btn');
+    cancelBtn.style.display = 'inline-block';
+  }
+
+  function cancelEdit(fieldId) {
+    const input = document.getElementById(fieldId);
+    input.value = originalValues[fieldId];
+    input.disabled = true;
+
+    const cancelBtn = input.parentElement.querySelector('.cancel-btn');
+    cancelBtn.style.display = 'none';
+
+    const error = document.getElementById(fieldId + 'Error');
+    if (error) error.innerText = '';
+  }
+
+  document.getElementById("editProfileForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    let valid = true;
+
+    const username = document.getElementById("username").value.trim();
+    if (!/^[A-Za-z0-9]{3,}$/.test(username)) {
+      document.getElementById("usernameError").innerText = "Username must be at least 3 characters.";
+      valid = false;
+    } else {
+      document.getElementById("usernameError").innerText = "";
+    }
+
+    const email = document.getElementById("email").value.trim();
+    if (!/^[\w.-]+@[\w.-]+\.\w+$/.test(email)) {
+      document.getElementById("emailError").innerText = "Invalid email format.";
+      valid = false;
+    } else {
+      document.getElementById("emailError").innerText = "";
+    }
+
+    const phone = document.getElementById("phone").value.trim();
+    if (!/^\d{10}$/.test(phone)) {
+      document.getElementById("phoneError").innerText = "Phone must be 10 digits.";
+      valid = false;
+    } else {
+      document.getElementById("phoneError").innerText = "";
+    }
+
+    const password = document.getElementById("password").value;
+    const passError = document.getElementById("passwordError");
+    const passwordPattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[\d])(?=.*[@#$%&*?!])[A-Za-z\d@#$%&*?!]{8,}$/;
+    if (!passwordPattern.test(password)) {
+      passError.innerText = "Password must be 8+ characters with upper, lower, digit, special char.";
+      valid = false;
+    } else {
+      passError.innerText = "";
+    }
+    if (valid) {
+    const updatedUser = {
+      username: document.getElementById("username").value.trim(),
+      email: document.getElementById("email").value.trim(),
+      mobile: document.getElementById("phone").value.trim(),
+      gender: document.getElementById("gender").value,
+      password: document.getElementById("password").value
+    };
+
+    localStorage.setItem("userProfile", JSON.stringify(updatedUser));
+    alert("Profile updated successfully!");
+  }
+
+  });
+
+  // Load and prefill values from localStorage
+window.onload = function () {
+  const userProfile = JSON.parse(localStorage.getItem("userProfile"));
+
+  if (userProfile) {
+    document.getElementById("username").value = userProfile.username;
+    document.getElementById("email").value = userProfile.email;
+    document.getElementById("phone").value = userProfile.mobile;
+    document.getElementById("gender").value = userProfile.gender;
+    document.getElementById("password").value = userProfile.password;
+
+    // Save originals for cancel
+    originalValues.username = userProfile.username;
+    originalValues.email = userProfile.email;
+    originalValues.phone = userProfile.mobile;
+    originalValues.gender = userProfile.gender;
+    originalValues.password = userProfile.password;
+  }
+};
+
+
+/*profile icon*/
+            
+function toggleDropdown() {
+    const dropdown = document.getElementById("dropdownMenu");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    }
+
+  
+    window.onclick = function(event) {
+    if (!event.target.matches('.profile-icon')) {
+        const dropdown = document.getElementById("dropdownMenu");
+        if (dropdown && dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+        }
+        }
+    }
+
+function goHome() {
+    window.location.href = 'Home page.html';  
+}
+
+function faq(){
+    window.location.href = 'FAQ.html';
+}
+
+function blogs(){
+    window.location.href = 'blogs.html';
+}
+
+function contact(){
+    window.location.href = 'Contact.html';
+}
+
+function editprofile(){
+    window.location.href = 'edit profile2.html';
+}
+            
+function logout(){
+    window.location.href = 'myproject design 2.html'
+}
+
+</script>
+
+<footer>
+    © 2025 Bonvoyage- Travel Packing Assistant. All rights reserved.
+  </footer>
+ 
+</body>
+</html>
