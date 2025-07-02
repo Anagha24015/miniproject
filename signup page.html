@@ -161,6 +161,22 @@
         </div>
     </div>
 
+    <!-- Add Firebase JS SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script>
+      // TODO: Replace with your Firebase project config
+      const firebaseConfig = {
+        apiKey: "***REMOVED***",
+        authDomain: "ai-travel-packing-assistant.firebaseapp.com",
+        projectId: "ai-travel-packing-assistant",
+        storageBucket: "ai-travel-packing-assistant.appspot.com",
+        messagingSenderId: "1096528973272", // Replace with your 12-digit project number
+        appId: "1:1096528973272:web:cefe3f2cc51e096ffb76ad"
+      };
+      firebase.initializeApp(firebaseConfig);
+    </script>
+
     <form action="#" method="post" id="signup" onsubmit="return validate(event)">
         <fieldset class="field">
          <div class="one">
@@ -254,22 +270,26 @@
                 isValid = false;
             }
 
-            // If valid, save to localStorage and redirect
             if (isValid) {
-                const userProfile = {
-                    username,
-                    password,
-                    email,
-                    mobile,
-                    gender
-                };
-
-                localStorage.setItem("userProfile", JSON.stringify(userProfile));
-
-                alert("Signup successful!");
-                window.location.href = "profile.html";  // Or whatever page you want to redirect to
+                // Use Firebase Auth to create user
+                firebase.auth().createUserWithEmailAndPassword(email, password)
+                  .then((userCredential) => {
+                    // User created, get ID token
+                    return userCredential.user.getIdToken();
+                  })
+                  .then((idToken) => {
+                    // Store token for later API use (e.g., in localStorage)
+                    localStorage.setItem("firebaseIdToken", idToken);
+                    // Optionally, store user profile info
+                    localStorage.setItem("userProfile", JSON.stringify({ username, email, mobile, gender }));
+                    alert("Signup successful!");
+                    window.location.href = "profile2.html";
+                  })
+                  .catch((error) => {
+                    // Show Firebase error
+                    alert("Signup failed: " + error.message);
+                  });
             }
-
             return false;
         }
 
@@ -279,15 +299,15 @@
         }
 
         function faq(){
-            window.location.href = 'FAQ.html';
+            window.location.href = 'FAQ2.html';
         }
 
         function blogs(){
-            window.location.href = 'blogs.html';
+            window.location.href = 'blogs2.html';
         }
 
         function contact(){
-            window.location.href = 'Contact.html';
+            window.location.href = 'Contact2.html';
         }
     </script>
     
