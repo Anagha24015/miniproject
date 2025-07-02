@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Travel packing AI assistant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background-image: url('https://media.istockphoto.com/id/1372270538/vector/world-map-whit-dashed-trace-line-and-airplanes-flying-travel-concept-vector-illustration.jpg?s=612x612&w=0&k=20&c=uRRnSTMH16YTh8Q9IzOTFSNzvIRIxRCFdU3lSJTpNvI=');
+        background-repeat: no-repeat;
+        background-size: 100% auto;
+    
+    }
+
+    /* Banner section only */
+    .top-banner {
+        height: 200px;
+        background-image: url('https://poonawallafincorp.com/documents/213163/213167/blog_banner-banner-image-checklist-of-things-to-carry-while-travelling-for-a-seamless-experience.jpg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100% auto;
+        display: flex;
+        margin-top: 0px;
+        flex-direction: column;
+        justify-content: center;
+        color: rgb(250, 246, 246);
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .logo {
+        font-size: 90px;
+        font-style: italic;
+        margin-left: 40px;
+        margin-top:7px;
+    }
+
+    .nav {
+        display:flex;
+        gap: 20px;
+        font-weight: bold;
+        font-size: 20px;
+        margin-top: 30px;
+        margin-left: auto;
+        margin-right: 100px;
+        color:white;
+    }
+
+    /*.nav a {
+        color: rgb(251, 250, 250);
+        text-decoration: none;
+    }*/
+
+    .nav:hover {
+        cursor: pointer;
+    }
+
+    .one {
+        display: block;
+        text-align: center;
+        margin-top: 90px;
+        margin-left: 200px;
+        font-size: 20px;
+        margin-right: 200px;
+        
+    }
+
+    .field {
+        margin-top: 10px;
+        width: 500px;
+    
+        background-size: cover;
+        background-position: center;
+        backdrop-filter: blur(0px);
+        border: dotted;
+        border-radius: 50px;
+        margin-left: 50px;
+    }
+
+    .submit {
+        margin-top: 0px;
+        margin-left: 250px;
+        border-radius: 30px;
+        width: 100px;
+        height: 40px;
+        margin-bottom: 60px;
+        background-color: rgb(56, 84, 133);
+        border: none;
+        font-size: 18px;
+        color: aliceblue;
+        font-weight: bold;
+    }
+
+    .submit:hover {
+        background-color: rgb(152, 152, 230);
+        color: rgb(56, 84, 133);
+        cursor: pointer;
+    }
+
+    input {
+        width: 200px;
+        height: 30px;
+        border-radius: 30px;
+        background-color: #c7c1c1;
+        border: none;
+        font-weight: bold;
+    }
+
+    .error {
+        color: red;
+        font-size: 14px;
+    }
+
+    .new {
+        margin-left: 230px;
+        margin-bottom: 30px;
+    }
+
+    .features {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: #fff;
+}
+
+.features h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.feature-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.feature {
+  max-width: 250px;
+  padding: 1rem;
+}
+
+.feature i {
+  font-size: 2rem;
+  color: #000;
+  margin-bottom: 1rem;
+}
+
+.feature h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.feature p {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+
+.download-app {
+  text-align: center;
+  padding: 3rem 1rem;
+  background-color: #f7f7f7;
+}
+
+.download-app h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.store-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.store-buttons img {
+  height: 60px;
+  transition: transform 0.2s ease;
+}
+
+.store-buttons img:hover {
+  transform: scale(1.05);
+}
+
+.quote{
+    margin-top:20px;
+    margin-left:900px;
+}
+
+
+.main-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-top: 50px;
+}
+
+.quote {
+    margin: 0;
+}
+
+.field {
+    margin: 0;
+}
+
+footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f1f1f1;
+            margin-top: 40px;
+            font-size: 14px;
+            color: #777;
+        }
+</style>
+</head>
+<body>
+    <!-- Add Firebase JS SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script>
+      // TODO: Replace with your Firebase project config
+      
+      firebase.initializeApp(firebaseConfig);
+    </script>
+    <div class="top-banner">
+        <div class="logo">BONVOYAGE</div>
+        <div class="nav">
+            <span onclick="goHome()">Home</span>
+            <span onclick="faq()">FAQ</span>
+            <span onclick="blogs()">Blogs</span>
+            <span onclick="contact()">Contact</span>
+        </div>
+    </div>
+    <div class="main-section">
+    <span class="quote"><img src="https://thumbs.dreamstime.com/b/travel-photo-collage-isolated-white-background-51114940.jpg" width="600px" height="600px"></span>
+    <form action="#" method="post" id="loginpage" onsubmit="return validate();">
+        <fieldset class="field">
+            <div class="one">
+                <label for="username">E mail</label><br>
+                <input type="text" id="username" name="username"><br>
+                <span class="error" id="usernameerror"></span><br>
+
+                <label for="password">Password</label><br>
+                <input type="password" id="password"><br>
+                <span class="error" id="passworderror"></span><br>
+            </div><br>
+            
+            <button type="submit" class="submit">Login</button><br>
+            <div class="new">New User?<a href="signup page.html">Sign Up</a></div>
+        </fieldset>
+    </form>
+    </div>
+    <section class="features">
+        <h2>Pack with Us</h2>
+        <div class="feature-container">
+            <div class="feature">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <h3>AI-Powered Lists</h3>
+                <p>Get smart packing recommendations based on your destination and trip details.</p>
+              </div>
+              
+          <div class="feature">
+            <i class="fa-solid fa-list-alt"></i>
+            <h3> Download your list</h3>
+            <p>Make changes in the list and save them for future trips.</p>
+          </div>
+          <div class="feature">
+            <i class="fa-solid fa-user-group"></i>
+            <h3>Easy to Share</h3>
+            <p>Collaborate with travel companions by sharing your packing lists.</p>
+          </div>
+      </section>
+
+
+      <section class="download-app">
+        <h2>Get Bonvoyage on Your Device</h2>
+        <div class="store-buttons">
+          <a href="https://play.google.com/store" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play">
+          </a>
+          <a href="https://www.apple.com/app-store/" target="_blank">
+            <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store">
+          </a>
+        </div>
+      </section>
+      
+      <script>
+        function validate() {
+            let user_name = document.getElementById("username").value.trim();
+            let password = document.getElementById("password").value.trim();
+            let username_error = document.getElementById("usernameerror");
+            let passworderror = document.getElementById("passworderror");
+
+            if (user_name === "" || password === "") {
+                alert("All the fields should be filled");
+                return false;
+            }
+
+            let isValid = true;
+
+            // Check if input is email or username
+            const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user_name);
+            
+            if (isEmail) {
+                // Valid email format
+                username_error.innerText = "";
+            } else if (!/^[A-Za-z0-9]{3,}$/.test(user_name)) {
+                
+                username_error.innerText = "Please enter a valid email address or username (at least 3 characters)";
+                isValid = false;
+            } else {
+                username_error.innerText = "";
+            }
+
+            let passwordpattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[\d])(?=.*[@#$%&*?!])[A-Za-z0-9@#$%&*?!]{8,}$/;
+            if (!passwordpattern.test(password)) {
+                passworderror.innerText = "Password must be at least 8 characters with uppercase, lowercase, number & special character";
+                isValid = false;
+            } else {
+                passworderror.innerText = "";
+            }
+
+            if (isValid) {
+                // Use Firebase Auth to sign in
+                const email = user_name; // Use the input directly since we validated it's either email or username
+                firebase.auth().signInWithEmailAndPassword(email, password)
+                  .then((userCredential) => {
+                    return userCredential.user.getIdToken();
+                  })
+                  .then((idToken) => {
+                    localStorage.setItem("firebaseIdToken", idToken);
+                    window.location.href = 'profile2.html';
+                  })
+                  .catch((error) => {
+                    alert("Login failed: " + error.message);
+                  });
+            }
+
+            return false; // Prevent default form submit behavior
+        }
+
+        function goHome() {
+            window.location.href = 'myproject design 2.html';  
+        }
+
+        function faq(){
+            window.location.href = 'FAQ2.html';
+        }
+
+        function blogs(){
+            window.location.href = 'blogs2.html';
+        }
+
+        function contact(){
+            window.location.href = 'Contact2.html';
+        }
+  </script>   
+<footer>
+  © 2025 Bonvoyage- Travel Packing Assistant. All rights reserved.
+</footer>
+
+</body>
+</html>
