@@ -8,7 +8,7 @@
     body {
         margin: 0;
         font-family: 'Segoe UI', sans-serif;
-        background-image: url('https://media.istockphoto.com/id/1372270538/vector/world-map-whit-dashed-trace-line-and-airplanes-flying-travel-concept-vector-illustration.jpg?s=612x612&w=0&k=20&c=uRRnSTMH16YTh8Q9IzOTFSNzvIRIxRCFdU3lSJTpNvI=');
+        background-image: url("images\\bg-Pica.png");
         background-repeat: no-repeat;
         background-size: 100% auto;
     
@@ -60,19 +60,19 @@
         display: block;
         text-align: center;
         margin-top: 90px;
-        margin-left: 200px;
+        margin-left: 100px;
         font-size: 20px;
-        margin-right: 200px;
+        margin-right: 100px;
         
     }
 
     .field {
         margin-top: 10px;
-        width: 500px;
+        width: 300px;
     
-        background-size: cover;
-        background-position: center;
-        backdrop-filter: blur(0px);
+        /*background-size: cover;*/
+        /*background-position: center;
+        backdrop-filter: blur(0px);*/
         border: dotted;
         border-radius: 50px;
         margin-left: 50px;
@@ -80,7 +80,7 @@
 
     .submit {
         margin-top: 0px;
-        margin-left: 250px;
+        margin-left: 150px;
         border-radius: 30px;
         width: 100px;
         height: 40px;
@@ -113,7 +113,7 @@
     }
 
     .new {
-        margin-left: 230px;
+        margin-left: 140px;
         margin-bottom: 30px;
     }
 
@@ -189,6 +189,7 @@
 .quote{
     margin-top:20px;
     margin-left:900px;
+   
 }
 
 
@@ -204,9 +205,9 @@
     margin: 0;
 }
 
-.field {
+/*.field {
     margin: 0;
-}
+}*/
 
 footer {
             text-align: center;
@@ -223,7 +224,14 @@ footer {
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script>
-      // TODO: Replace with your Firebase project config
+        const firebaseConfig = {
+          apiKey: "AIzaSyBVwjZ7HbypfVy_HI-e30EmN9xBXbRREdo",
+          authDomain: "ai-travel-packing-assistant.firebaseapp.com",
+          projectId: "ai-travel-packing-assistant",
+          storageBucket: "ai-travel-packing-assistant.appspot.com",
+          messagingSenderId: "1096528973272",
+          appId: "1:1096528973272:web:cefe3f2cc51e096ffb76ad"
+      };
       
       firebase.initializeApp(firebaseConfig);
     </script>
@@ -237,7 +245,7 @@ footer {
         </div>
     </div>
     <div class="main-section">
-    <span class="quote"><img src="https://thumbs.dreamstime.com/b/travel-photo-collage-isolated-white-background-51114940.jpg" width="600px" height="600px"></span>
+    <span class="quote"><img src="images\Adobe Express - file.png" width="600px" height="600px"></span>
     <form action="#" method="post" id="loginpage" onsubmit="return validate();">
         <fieldset class="field">
             <div class="one">
@@ -290,6 +298,11 @@ footer {
       </section>
       
       <script>
+        // Protect this page: if already logged in, redirect to details2.html or dashboard
+        if (localStorage.getItem('firebaseIdToken')) {
+          window.location.replace('details2.html'); // or your main app page
+        }
+
         function validate() {
             let user_name = document.getElementById("username").value.trim();
             let password = document.getElementById("password").value.trim();
@@ -329,11 +342,20 @@ footer {
                 // Use Firebase Auth to sign in
                 const email = user_name; // Use the input directly since we validated it's either email or username
                 firebase.auth().signInWithEmailAndPassword(email, password)
-                  .then((userCredential) => {
-                    return userCredential.user.getIdToken();
-                  })
+                  .then((userCredential) => userCredential.user.getIdToken())
                   .then((idToken) => {
                     localStorage.setItem("firebaseIdToken", idToken);
+                    // Fetch user profile from backend
+                    return fetch('http://localhost:5000/api/profile', {
+                      method: 'GET',
+                      headers: {
+                        'Authorization': 'Bearer ' + idToken
+                      }
+                    });
+                  })
+                  .then(response => response.json())
+                  .then(profile => {
+                    localStorage.setItem("userProfile", JSON.stringify(profile));
                     window.location.href = 'profile2.html';
                   })
                   .catch((error) => {
@@ -358,6 +380,16 @@ footer {
 
         function contact(){
             window.location.href = 'Contact2.html';
+        }
+
+        function logout() {
+            // Clear all authentication/session data
+            localStorage.removeItem('firebaseIdToken');
+            localStorage.removeItem('userProfile');
+            localStorage.removeItem('tripDetails');
+            localStorage.removeItem('destination');
+            // Redirect and replace history
+            window.location.replace('myproject design 2.html');
         }
   </script>   
 <footer>

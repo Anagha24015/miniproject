@@ -106,9 +106,9 @@
  
     }
 
-    .checkbox {
+    /*.checkbox {
       margin-top: 15px;
-    }
+    }*/
 
     .create-button {
       margin-top: 30px;
@@ -182,15 +182,21 @@
     border-radius: 8px;
     overflow: hidden;
     color: #333;
-    padding: 13px 17px;
+    padding: 15px 15px;
     text-decoration: none;
 }
 
-
-.dropdown-menu:hover {
-    background-color: #f0f0f0;
+.dropdown-menu span {
+    display:inline-block;
+    padding: 5px 18px;
+    margin: 0;
     cursor: pointer;
-    text-decoration: underline;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.dropdown-menu span:hover {
+    background-color: #f0f0f0;
 }
 
 footer {
@@ -257,10 +263,20 @@ footer {
       </div>
     </div>
 
-    <div class="checkbox">
+    <div class="section">
+      <label>Companions</label>
+      <div class="options companions-options" style="display: flex; gap: 20px;">
+        <label><input type="checkbox" class="companion-checkbox" value="alone"> Alone</label>
+        <label><input type="checkbox" class="companion-checkbox" value="kids"> Kids</label>
+        <label><input type="checkbox" class="companion-checkbox" value="senior citizen"> Senior Citizen</label>
+        <label><input type="checkbox" class="companion-checkbox" value="pet"> Pet</label>
+      </div>
+    </div>
+
+    <!--<div class="checkbox">
       <input type="checkbox" id="light-pack">
       <label for="light-pack">Pack extra light?</label>
-    </div>
+    </div>-->
 
     <div class="create-button">
       <button onclick="nextpage()"> Create packing list</button>
@@ -273,6 +289,17 @@ footer {
   
 
 <script>
+    // Protect this page: if not logged in, redirect to login/start page
+    if (!localStorage.getItem('firebaseIdToken')) {
+      window.location.replace('myproject design 2.html');
+    }
+
+    // Ensure destination is set in localStorage
+    if (!localStorage.getItem('destination')) {
+      alert('Please enter your destination first.');
+      window.location.href = 'profile2.html';
+    }
+
     const options = document.querySelectorAll('.option');
     options.forEach(option => {
       option.addEventListener('click', () => {
@@ -300,11 +327,32 @@ footer {
         const selectedClimate = document.querySelector('.climate-options .option.selected');
         const selectedAccommodation = document.querySelector('.accommodation-options .option.selected');
         const selectedTravel = document.querySelector('.travel-options .option.selected');
+        /*const lightPack = document.getElementById('light-pack').checked;*/
+
+        // Collect selected companions
+        const companionCheckboxes = document.querySelectorAll('.companion-checkbox');
+        const companions = Array.from(companionCheckboxes)
+          .filter(cb => cb.checked)
+          .map(cb => cb.value);
+
+        // Get destination from localStorage
+        const destination = localStorage.getItem('destination') || '';
 
         if (!selectedClimate || !selectedAccommodation || !selectedTravel) {
             alert("Please select one option from each section: Climate, Accommodation, and Travel type.");
             return;
         }
+
+        // Store trip details in localStorage
+        const tripDetails = {
+            climate: selectedClimate.textContent.trim().toLowerCase(),
+            accommodation: selectedAccommodation.textContent.trim().toLowerCase(),
+            travelType: selectedTravel.textContent.trim().toLowerCase(),
+            /*lightPack: lightPack,*/
+            companions: companions,
+            destination: destination
+        };
+        localStorage.setItem('tripDetails', JSON.stringify(tripDetails));
 
         // All required options are selected
         window.location.href = 'recommendation.html';
@@ -335,8 +383,14 @@ footer {
             window.location.href = 'edit profile2.html';
     }
             
-    function logout(){
-            window.location.href = 'myproject design 2.html'
+    function logout() {
+        // Clear all authentication/session data
+        localStorage.removeItem('firebaseIdToken');
+        localStorage.removeItem('userProfile');
+        localStorage.removeItem('tripDetails');
+        localStorage.removeItem('destination');
+        // Redirect and replace history
+        window.location.replace('myproject design 2.html');
     }
   </script>
 

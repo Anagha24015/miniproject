@@ -93,10 +93,10 @@
       color: black;
     }
 
-    .share-btn {
+    /*.share-btn {
       background-color: #17a2b8;
       color: white;
-    }
+    }*/
 
 
   /*profile icon*/
@@ -148,6 +148,27 @@ footer {
             color: #777;
 }
 
+#savedListSelect {
+  width: 100%;
+  padding: 8px;
+  margin-top: 8px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+#viewSavedListBtn {
+  padding: 8px 18px;
+  border-radius: 6px;
+  border: none;
+  background: #007bff;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
   </style>
 </head>
 <body>
@@ -179,65 +200,67 @@ footer {
     <button class="download-btn" onclick="downloadList()">⬇ Download</button>
     <button class="save-btn" onclick="saveList()">💾 Save</button>
     <button class="load-btn" onclick="loadList()">🔄 Load Saved</button>
-    <button class="share-btn" onclick="shareList()">📤 Share</button>
+    <!--<button class="share-btn" onclick="shareList()">📤 Share</button>-->
   </div>
 
   <script>
-    // Example data (replace with real input later)
-    const userInput = {
-      gender: "female",
-      weather: "cold",
-      duration: 5,
-      withKids: true,
-      withSeniors: false
-    };
-
-    function generatePackingList(input) {
-      let list = [];
-
-      list.push("Passport / ID", "Phone & Charger", "Toiletries", "Medications");
-
-      if (input.weather === "cold") {
-        list.push("Warm jacket", "Thermal wear", "Gloves", "Woolen socks", "Beanie or hat");
-      } else if (input.weather === "warm") {
-        list.push("T-shirts", "Shorts", "Sunglasses", "Sunscreen", "Cap or Hat");
-      } else if (input.weather === "tropical") {
-        list.push("Bug repellent", "Flip-flops", "Swimwear", "Light cotton clothes", "Raincoat");
-      } else if (input.weather === "changeable") {
-        list.push("Layered clothing", "Umbrella", "Waterproof shoes");
-      }
-
-      if (input.gender === "female") {
-        list.push("Makeup kit", "Hair ties", "Sanitary products");
-      } else if (input.gender === "male") {
-        list.push("Shaving kit", "Deodorant");
-      }
-
-      if (input.duration > 7) {
-        list.push("Laundry bag", "Extra underwear", "Comfortable shoes");
-      }
-
-      if (input.withKids) {
-        list.push("Toys or books", "Snacks", "Baby wipes", "Extra clothes for kids");
-      }
-
-      if (input.withSeniors) {
-        list.push("Walking aid", "Daily meds", "Neck pillow", "Medical documents");
-      }
-
-      return list;
+    // Protect this page: if not logged in, redirect to login/start page
+    if (!localStorage.getItem('firebaseIdToken')) {
+      window.location.replace('myproject design 2.html');
     }
 
-    const packingItems = generatePackingList(userInput);
-    const resultDiv = document.getElementById("result");
-    const listHTML = `
-      <h2>Recommended Items:</h2>
-      <ul>${packingItems.map(item => `<li>${item}</li>`).join("")}</ul>
-    `;
-    resultDiv.innerHTML = listHTML;
+    // On page load, get trip details and call AI recommendation endpoint
+    window.onload = function() {
+      const tripDetails = JSON.parse(localStorage.getItem('tripDetails'));
+      if (!tripDetails) {
+        alert('No trip details found. Please start from the previous page.');
+        window.location.href = 'details2.html';
+        return;
+      }
+      const idToken = localStorage.getItem('firebaseIdToken');
+      if (!idToken) {
+        alert('You are not logged in. Please log in again.');
+        window.location.href = 'myproject design 2.html';
+        return;
+      }
+      fetch('http://localhost:5000/api/packing-list/recommend', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + idToken
+        },
+        body: JSON.stringify(tripDetails)
+      })
+      .then(response => response.json())
+      .then(data => {
+        window.packingItems = data.items;
+        displayPackingList(data.items);
+      })
+      .catch(err => {
+        alert('Failed to get recommendation: ' + err.message);
+      });
+    };
+
+    function displayPackingList(items) {
+      const resultDiv = document.getElementById('result');
+      const listHTML = `
+        <h2>Recommended Items:</h2>
+        <ul>${items.map(item => `<li>${item}</li>`).join('')}</ul>
+        <textarea id="editList" style="width:100%;height:100px;">${items.join('\n')}</textarea>
+        <p>Edit the list above if needed before saving.</p>
+      `;
+      resultDiv.innerHTML = listHTML;
+    }
 
     function downloadList() {
-      const blob = new Blob([packingItems.join("\n")], { type: "text/plain" });
+      const editListElem = document.getElementById('editList');
+      let items = [];
+      if (editListElem) {
+        items = editListElem.value.split('\n').map(item => item.trim()).filter(Boolean);
+      } else if (window.packingItems) {
+        items = window.packingItems;
+      }
+      const blob = new Blob([items.join("\n")], { type: "text/plain" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
       link.download = "packing_list.txt";
@@ -247,21 +270,70 @@ footer {
     }
 
     function saveList() {
-      localStorage.setItem("packingList", JSON.stringify(packingItems));
-      alert("Packing list saved!");
+      const idToken = localStorage.getItem('firebaseIdToken');
+      const tripDetails = JSON.parse(localStorage.getItem('tripDetails'));
+      const editedList = document.getElementById('editList').value.split('\n').map(item => item.trim()).filter(Boolean);
+      if (!idToken || !tripDetails) {
+        alert('Missing authentication or trip details.');
+        return;
+      }
+      fetch('http://localhost:5000/api/packing-list', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + idToken
+        },
+        body: JSON.stringify({
+          tripDetails: tripDetails,
+          items: editedList
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert('Packing list saved to your account!');
+      })
+      .catch(err => {
+        alert('Failed to save packing list: ' + err.message);
+      });
     }
 
     function loadList() {
-      const saved = localStorage.getItem("packingList");
-      if (saved) {
-        const items = JSON.parse(saved);
-        resultDiv.innerHTML = `
-          <h2>Saved Packing List:</h2>
-          <ul>${items.map(item => `<li>${item}</li>`).join("")}</ul>
-        `;
-      } else {
-        alert("No saved list found.");
+      const idToken = localStorage.getItem('firebaseIdToken');
+      if (!idToken) {
+        alert('You are not logged in. Please log in again.');
+        window.location.href = 'myproject design 2.html';
+        return;
       }
+      fetch('http://localhost:5000/api/packing-list', {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + idToken
+        }
+      })
+      .then(response => response.json())
+      .then(lists => {
+        if (!Array.isArray(lists) || lists.length === 0) {
+          alert('No saved lists found.');
+          return;
+        }
+        // Show a selection dialog for all saved lists
+        let listOptions = lists.map((list, idx) => {
+          const date = new Date(list.createdAt).toLocaleString();
+          const trip = list.tripDetails || {};
+          return `<option value="${idx}">Trip: ${trip.climate || ''}, ${trip.travelType || ''}, ${trip.accommodation || ''}, Destination: ${trip.destination || ''}, Companions: ${(trip.companions || []).join(', ')} [${date}]</option>`;
+        }).join('');
+        const selectHTML = `<label for="savedListSelect">Select a saved packing list:</label><select id="savedListSelect">${listOptions}</select><button id="viewSavedListBtn">View</button>`;
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = selectHTML;
+        document.getElementById('viewSavedListBtn').onclick = function() {
+          const idx = document.getElementById('savedListSelect').value;
+          const items = lists[idx].items;
+          displayPackingList(items);
+        };
+      })
+      .catch(err => {
+        alert('Failed to load saved lists: ' + err.message);
+      });
     }
 
     /*profile icon*/
@@ -301,8 +373,14 @@ footer {
         window.location.href = 'edit profile2.html';
     }
             
-    function logout(){
-        window.location.href = 'myproject design 2.html'
+    function logout() {
+        // Clear all authentication/session data
+        localStorage.removeItem('firebaseIdToken');
+        localStorage.removeItem('userProfile');
+        localStorage.removeItem('tripDetails');
+        localStorage.removeItem('destination');
+        // Redirect and replace history
+        window.location.replace('myproject design 2.html');
     }
 
 

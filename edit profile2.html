@@ -8,8 +8,8 @@
         margin: 0;
         font-family: 'Segoe UI', sans-serif;
         background-image: url('https://png.pngtree.com/png-vector/20220610/ourmid/pngtree-world-map-silhouette-vector-australia-png-image_4955918.png');
-        /*background-repeat: no-repeat;
-        background-size: 100% auto;*/
+        background-repeat: no-repeat;
+        background-size: 100% auto;
     
     }
 
@@ -80,11 +80,14 @@
     }
 
     input, select {
-      width: calc(100% - 60px);
+      /*width: calc(100% - 60px);*/
       padding: 10px;
       font-size: 14px;
       border: 1px solid #ccc;
       border-radius: 10px;
+      min-width: 400px;
+      flex:1
+      
     }
 
     .edit-btn {
@@ -117,10 +120,12 @@
 
     .edit-btn:hover {
       background-color: #2e59d9;
+      
     }
 
     .cancel-btn:hover {
       background-color: #dc3545;
+      
     }
 
     .save-btn {
@@ -175,18 +180,22 @@
     border-radius: 8px;
     overflow: hidden;
     color: #333;
-    padding: 13px 17px;
+    padding: 15px 15px;
     text-decoration: none;
 }
 
-
-
-.dropdown-menu :hover {
-    background-color: #f0f0f0;
+.dropdown-menu span {
+    display:inline-block;
+    padding: 5px 18px;
+    margin: 0;
     cursor: pointer;
-    text-decoration: underline;
+    border-radius: 4px;
+    transition: background 0.2s;
 }
 
+.dropdown-menu span:hover {
+    background-color: #f0f0f0;
+}
 
 footer {
             text-align: center;
@@ -196,9 +205,70 @@ footer {
             font-size: 14px;
             color: #777;
 }
+
+/* Add this new style for row alignment */
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-row input,
+.form-row select {
+  flex: 1;
+  height: 44px;
+  padding: 0 12px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.form-row .edit-btn,
+.form-row .cancel-btn {
+  height: 36px;
+  min-width: 60px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: none;
+  margin-left: 8px;
+  position: static;
+}
+
+.delete-btn{
+  width: 100%;
+      padding: 12px;
+      background-color: #ee1409;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+}
+
+.delete-btn:hover{
+  background-color:orange;
+}
   </style>
 </head>
 <body>
+    <!-- Add Firebase JS SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyBVwjZ7HbypfVy_HI-e30EmN9xBXbRREdo",
+        authDomain: "ai-travel-packing-assistant.firebaseapp.com",
+        projectId: "ai-travel-packing-assistant",
+        storageBucket: "ai-travel-packing-assistant.appspot.com",
+        messagingSenderId: "1096528973272",
+        appId: "1:1096528973272:web:cefe3f2cc51e096ffb76ad"
+      };
+      firebase.initializeApp(firebaseConfig);
+    </script>
+
     <div class="top-banner">
         <div class="logo">BONVOYAGE</div>
         <div class="nav">
@@ -224,49 +294,60 @@ footer {
   <form id="editProfileForm">
     <div class="form-group">
       <label for="username">Username</label>
-      <input type="text" id="username" disabled>
-      <button type="button" class="edit-btn" onclick="enableField('username')">Edit</button>
-      <button type="button" class="cancel-btn" onclick="cancelEdit('username')">Cancel</button>
+      <div class="form-row">
+        <input type="text" id="username" disabled>
+        <button type="button" class="edit-btn" onclick="enableField('username')">Edit</button>
+        <button type="button" class="cancel-btn" onclick="cancelEdit('username')">Cancel</button>
+      </div>
       <div class="error" id="usernameError"></div>
     </div>
 
     <div class="form-group">
       <label for="email">Email</label>
-      <input type="email" id="email" disabled>
-      <button type="button" class="edit-btn" onclick="enableField('email')">Edit</button>
-      <button type="button" class="cancel-btn" onclick="cancelEdit('email')">Cancel</button>
+      <div class="form-row">
+        <input type="email" id="email" disabled>
+        <button type="button" class="edit-btn" onclick="enableField('email')">Edit</button>
+        <button type="button" class="cancel-btn" onclick="cancelEdit('email')">Cancel</button>
+      </div>
       <div class="error" id="emailError"></div>
     </div>
 
     <div class="form-group">
       <label for="phone">Phone Number</label>
-      <input type="tel" id="phone" disabled>
-      <button type="button" class="edit-btn" onclick="enableField('phone')">Edit</button>
-      <button type="button" class="cancel-btn" onclick="cancelEdit('phone')">Cancel</button>
+      <div class="form-row">
+        <input type="tel" id="phone" disabled>
+        <button type="button" class="edit-btn" onclick="enableField('phone')">Edit</button>
+        <button type="button" class="cancel-btn" onclick="cancelEdit('phone')">Cancel</button>
+      </div>
       <div class="error" id="phoneError"></div>
     </div>
 
     <div class="form-group">
       <label for="gender">Gender</label>
-      <select id="gender" disabled>
-        <option value="" disabled selected>Select Gender</option>
-        <option>Female</option>
-        <option>Male</option>
-        <option>Other</option>
-      </select>
-      <button type="button" class="edit-btn" onclick="enableField('gender')">Edit</button>
-      <button type="button" class="cancel-btn" onclick="cancelEdit('gender')">Cancel</button>
+      <div class="form-row">
+        <select id="gender" disabled>
+          <option value="" disabled selected>Select Gender</option>
+          <option>Female</option>
+          <option>Male</option>
+          <option>Other</option>
+        </select>
+        <button type="button" class="edit-btn" onclick="enableField('gender')">Edit</button>
+        <button type="button" class="cancel-btn" onclick="cancelEdit('gender')">Cancel</button>
+      </div>
     </div>
 
     <div class="form-group">
       <label for="password">Password</label>
-      <input type="password" id="password" disabled>
-      <button type="button" class="edit-btn" onclick="enableField('password')">Edit</button>
-      <button type="button" class="cancel-btn" onclick="cancelEdit('password')">Cancel</button>
+      <div class="form-row">
+        <input type="password" id="password" disabled>
+        <button type="button" class="edit-btn" onclick="enableField('password')">Edit</button>
+        <button type="button" class="cancel-btn" onclick="cancelEdit('password')">Cancel</button>
+      </div>
       <div class="error" id="passwordError"></div>
     </div>
 
-    <button type="submit" class="save-btn">Save Changes</button>
+    <button type="submit" class="save-btn">Save Changes</button><br><br>
+    <button type="button" class="delete-btn" onclick="deleteProfile()">Delete Profile</button>
   </form>
 </div>
 
@@ -301,6 +382,7 @@ footer {
   }
 
   document.getElementById("editProfileForm").addEventListener("submit", function (e) {
+    console.log("[DEBUG] Save Changes button clicked");
     e.preventDefault();
 
     let valid = true;
@@ -332,44 +414,153 @@ footer {
     const password = document.getElementById("password").value;
     const passError = document.getElementById("passwordError");
     const passwordPattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[\d])(?=.*[@#$%&*?!])[A-Za-z\d@#$%&*?!]{8,}$/;
-    if (!passwordPattern.test(password)) {
-      passError.innerText = "Password must be 8+ characters with upper, lower, digit, special char.";
-      valid = false;
+    if (password) {
+      if (!passwordPattern.test(password)) {
+        passError.innerText = "Password must be 8+ characters with upper, lower, digit, special char.";
+        valid = false;
+      } else {
+        passError.innerText = "";
+      }
     } else {
       passError.innerText = "";
     }
+
+    const gender = document.getElementById("gender").value;
+
     if (valid) {
-    const updatedUser = {
-      username: document.getElementById("username").value.trim(),
-      email: document.getElementById("email").value.trim(),
-      mobile: document.getElementById("phone").value.trim(),
-      gender: document.getElementById("gender").value,
-      password: document.getElementById("password").value
-    };
-
-    localStorage.setItem("userProfile", JSON.stringify(updatedUser));
-    alert("Profile updated successfully!");
-  }
-
+      console.log("[DEBUG] Validation passed");
+      firebase.auth().onAuthStateChanged(function(user) {
+        console.log("[DEBUG] onAuthStateChanged user:", user);
+        if (!user) {
+          alert("You are not logged in. Please log in again.");
+          window.location.href = 'myproject design 2.html';
+          return;
+        }
+        const updatedUser = {
+          username: username,
+          email: email,
+          mobile: phone,
+          gender: gender,
+          password: password
+        };
+        // Update Firebase Auth if email or password changed
+        const idToken = localStorage.getItem("firebaseIdToken");
+        const userProfile = JSON.parse(localStorage.getItem("userProfile"));
+        const currentEmail = userProfile?.email || "";
+        const currentPassword = userProfile?.password || "";
+        let reauthPromise = Promise.resolve();
+        if (email !== currentEmail || (password && password !== currentPassword)) {
+          console.log("[DEBUG] Email or password changed, need re-authentication");
+          const currentPwd = prompt("For security, please enter your current password to confirm changes:");
+          if (!currentPwd) {
+            alert("Password is required to update email or password.");
+            console.log("[DEBUG] No current password entered, aborting");
+            return;
+          }
+          const credential = firebase.auth.EmailAuthProvider.credential(
+            currentEmail,
+            currentPwd
+          );
+          console.log("[DEBUG] Attempting re-authentication...");
+          reauthPromise = user.reauthenticateWithCredential(credential);
+        } else {
+          console.log("[DEBUG] No email or password change, skipping re-authentication");
+        }
+        reauthPromise
+          .then(() => {
+            console.log("[DEBUG] Re-authentication successful or not needed");
+            const promises = [];
+            let passwordChanged = false;
+            if (email !== currentEmail) {
+              console.log("[DEBUG] Updating email in Firebase Auth");
+              promises.push(user.updateEmail(email));
+            }
+            if (password && password !== currentPassword) {
+              console.log("[DEBUG] Updating password in Firebase Auth");
+              passwordChanged = true;
+              promises.push(user.updatePassword(password));
+            }
+            return Promise.all(promises).then(() => passwordChanged);
+          })
+          .then((passwordChanged) => {
+            console.log("[DEBUG] Firebase Auth update complete, passwordChanged:", passwordChanged);
+            // After Firebase Auth update, update backend
+            if (passwordChanged) {
+              updatedUser.password = password;
+            }
+            localStorage.setItem("userProfile", JSON.stringify(updatedUser));
+            if (idToken) {
+              console.log("[DEBUG] Sending updated profile to backend");
+              fetch('http://localhost:5000/api/profile', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Bearer ' + idToken
+                },
+                body: JSON.stringify({
+                  name: updatedUser.username,
+                  preferences: {
+                    mobile: updatedUser.mobile,
+                    gender: updatedUser.gender
+                  }
+                })
+              })
+              .then(response => response.json())
+              .then(data => {
+                console.log("[DEBUG] Backend update successful");
+                alert("Successfully edited");
+                alert("Profile updated successfully!");
+              })
+              .catch(err => {
+                console.error("Backend update failed:", err);
+                alert("Profile update failed: " + (err.message || err));
+              });
+            } else {
+              alert("No authentication token found. Please log in again.");
+              console.log("[DEBUG] No idToken found");
+            }
+          })
+          .catch((error) => {
+            console.error("Firebase Auth update failed:", error);
+            if (error && error.message) {
+              alert("Failed to update Firebase Auth: " + error.message);
+            } else {
+              alert("Failed to update Firebase Auth. Please check the console for details.");
+            }
+          });
+      });
+    } else {
+      console.log("[DEBUG] Validation failed");
+    }
   });
 
   // Load and prefill values from localStorage
 window.onload = function () {
-  const userProfile = JSON.parse(localStorage.getItem("userProfile"));
-
-  if (userProfile) {
-    document.getElementById("username").value = userProfile.username;
-    document.getElementById("email").value = userProfile.email;
-    document.getElementById("phone").value = userProfile.mobile;
-    document.getElementById("gender").value = userProfile.gender;
-    document.getElementById("password").value = userProfile.password;
-
-    // Save originals for cancel
-    originalValues.username = userProfile.username;
-    originalValues.email = userProfile.email;
-    originalValues.phone = userProfile.mobile;
-    originalValues.gender = userProfile.gender;
-    originalValues.password = userProfile.password;
+  const idToken = localStorage.getItem("firebaseIdToken");
+  if (idToken) {
+    fetch('http://localhost:5000/api/profile', {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + idToken
+      }
+    })
+    .then(response => response.json())
+    .then(userProfile => {
+      localStorage.setItem("userProfile", JSON.stringify(userProfile));
+      if (userProfile) {
+        document.getElementById("username").value = userProfile.name || '';
+        document.getElementById("email").value = userProfile.email || '';
+        document.getElementById("phone").value = userProfile.preferences?.mobile || '';
+        document.getElementById("gender").value = userProfile.preferences?.gender || '';
+        document.getElementById("password").value = '';
+        // Save originals for cancel
+        originalValues.username = userProfile.name || '';
+        originalValues.email = userProfile.email || '';
+        originalValues.phone = userProfile.preferences?.mobile || '';
+        originalValues.gender = userProfile.preferences?.gender || '';
+        originalValues.password = '';
+      }
+    });
   }
 };
 
@@ -412,7 +603,43 @@ function editprofile(){
 }
             
 function logout(){
-    window.location.href = 'myproject design 2.html'
+    localStorage.removeItem('userProfile');
+    localStorage.removeItem('firebaseIdToken');
+    window.location.href = 'myproject design 2.html';
+}
+
+function deleteProfile() {
+    if (confirm('Are you sure you want to delete your profile? This action cannot be undone.')) {
+        const idToken = localStorage.getItem('firebaseIdToken');
+        if (!idToken) {
+            alert('You are not logged in.');
+            window.location.replace('myproject design 2.html');
+            return;
+        }
+        fetch('http://localhost:5000/api/delete-profile', {
+            method: 'DELETE',
+            headers: {
+                'Authorization': 'Bearer ' + idToken
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Your profile has been deleted.');
+                // Clear all authentication/session data
+                localStorage.removeItem('firebaseIdToken');
+                localStorage.removeItem('userProfile');
+                localStorage.removeItem('tripDetails');
+                localStorage.removeItem('destination');
+                window.location.replace('myproject design 2.html');
+            } else {
+                return response.json().then(data => { throw new Error(data.error || 'Failed to delete profile.'); });
+            }
+        })
+        .catch(err => {
+            alert('Error: ' + err.message);
+        });
+    }
+    // If No, do nothing (alert closes automatically)
 }
 
 </script>
