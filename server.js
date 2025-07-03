@@ -60,41 +60,66 @@ async function authenticate(req, res, next) {
 // This is a simple rule-based system. You can expand it as needed.
 function generatePackingList({ climate, travelType, accommodation, companions }) {
   let items = [
-    'Passport', 'Travel documents', 'Phone charger', 'Toiletries'
+    'Passport', 'Travel documents', 'Phone charger', 'Toiletries', 'Face masks', 'Hand sanitizer', 'Snacks', 'Reusable water bottle'
   ];
 
   // Climate-based items
   if (climate === 'cold') {
-    items.push('Jacket', 'Gloves', 'Beanie', 'Thermal wear');
+    items.push(
+      'Sweaters', 'Thermal wear', 'Jacket', 'Gloves', 'Beanie', 'Woolen socks', 'Heating pads', 'Moisturizer', 'Lip balm', 'Scarf', 'Ear muffs', 'Boots'
+    );
   } else if (climate === 'hot') {
-    items.push('Sunscreen', 'Hat', 'Sunglasses', 'Shorts');
+    items.push(
+      'Sunscreen', 'Hat', 'Sunglasses', 'Shorts', 'Light cotton clothes', 'Flip flops', 'Aloe vera gel', 'Water bottle', 'Deodorant', 'Cooling towel'
+    );
   } else if (climate === 'rainy') {
-    items.push('Umbrella', 'Raincoat', 'Waterproof shoes');
+    items.push(
+      'Umbrella', 'Raincoat', 'Waterproof shoes', 'Quick-dry clothes', 'Plastic bags for wet clothes', 'Waterproof backpack cover', 'Extra socks'
+    );
   }
 
   // Travel type
   if (travelType === 'adventure') {
-    items.push('Hiking boots', 'First aid kit', 'Backpack');
+    items.push(
+      'Hiking boots', 'First aid kit', 'Backpack', 'Energy bars', 'Water purification tablets', 'Map/Compass', 'Multi-tool', 'Headlamp', 'Insect repellent', 'Sunscreen', 'Whistle'
+    );
   } else if (travelType === 'business') {
-    items.push('Formal wear', 'Laptop', 'Business cards');
+    items.push(
+      'Formal wear', 'Laptop', 'Business cards', 'Dress shoes', 'Notebook & pen', 'Portable charger', 'Presentation materials', 'Tie/Scarf', 'Grooming kit'
+    );
+  } else if (travelType === 'leisure') {
+    items.push(
+      'Casual wear', 'Swimsuit', 'Camera', 'Books/e-reader', 'Travel pillow', 'Sunglasses', 'Guidebook'
+    );
   }
 
   // Accommodation
   if (accommodation === 'hostel') {
-    items.push('Padlock', 'Towel', 'Flip flops');
+    items.push('Padlock', 'Towel', 'Flip flops', 'Ear plugs', 'Eye mask', 'Travel sheet', 'Portable charger');
   } else if (accommodation === 'camping') {
-    items.push('Tent', 'Sleeping bag', 'Flashlight');
+    items.push('Tent', 'Sleeping bag', 'Flashlight', 'Camping stove', 'Camping utensils', 'Insect repellent', 'Portable water filter', 'Camping chair', 'Fire starter');
+  } else if (accommodation === 'hotel') {
+    items.push('Travel-size toiletries', 'Slippers', 'Laundry bag');
   }
 
   // Companions
-  if (companions.includes('baby')) {
-    items.push('Diapers', 'Baby food', 'Stroller', 'Baby wipes');
-  }
-  if (companions.includes('senior')) {
-    items.push('Medication', 'Walking stick', 'Comfortable shoes');
-  }
-  if (companions.includes('pet')) {
-    items.push('Pet food', 'Leash', 'Pet carrier');
+  if (Array.isArray(companions)) {
+    const companionsLower = companions.map(c => c.toLowerCase());
+    if (companionsLower.some(c => ['baby', 'kid', 'kids', 'child', 'children', 'infant', 'toddler'].includes(c))) {
+      items.push(
+        'Diapers', 'Baby wipes', 'Baby food/formula', 'Bottles', 'Toys', 'Stroller', 'Car seat', 'Kids medicine', 'Thermometer', 'Extra clothes for kids', 'Snacks for kids', 'Blanket', 'Pacifier', 'Sippy cup', 'Story books', 'Child sunscreen', 'Child ID bracelet'
+      );
+    }
+    if (companionsLower.some(c => ['senior', 'senior citizen', 'elderly', 'old', 'grandparent'].includes(c))) {
+      items.push(
+        'Medication', 'Walking stick', 'Comfortable shoes', 'Medical documents', 'Reading glasses', 'Hearing aid batteries', 'Pill organizer', 'Neck pillow', 'Light snacks', 'Emergency contact info'
+      );
+    }
+    if (companionsLower.some(c => ['pet', 'dog', 'cat', 'animal'].includes(c))) {
+      items.push(
+        'Pet food', 'Leash', 'Pet carrier', 'Pet toys', 'Water bowl', 'Pet bed', 'Waste bags', 'Vaccination records', 'Pet medication', 'Grooming supplies'
+      );
+    }
   }
 
   // Remove duplicates
@@ -124,9 +149,14 @@ app.get('/api/profile', authenticate, async (req, res) => {
 
 // 3. Generate AI packing list
 app.post('/api/packing-list/recommend', authenticate, async (req, res) => {
-  const { climate, travelType, accommodation, companions } = req.body;
-  const items = generatePackingList({ climate, travelType, accommodation, companions });
-  res.json({ items });
+  try {
+    const { climate, travelType, accommodation, companions } = req.body;
+    const items = generatePackingList({ climate, travelType, accommodation, companions });
+    res.json({ items });
+  } catch (err) {
+    console.error('Error in /api/packing-list/recommend:', err);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // 4. Save packing list
@@ -158,6 +188,23 @@ app.post('/api/notify', authenticate, async (req, res) => {
     });
     res.json({ success: true });
   } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 7. Delete user profile and all related data
+app.delete('/api/delete-profile', authenticate, async (req, res) => {
+  const { uid } = req.user;
+  try {
+    // Delete user from Firebase Auth
+    await admin.auth().deleteUser(uid);
+    // Delete user profile from MongoDB
+    await User.deleteOne({ uid });
+    // Delete all packing lists for this user
+    await PackingList.deleteMany({ uid });
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Error deleting profile:', err);
     res.status(500).json({ error: err.message });
   }
 });
